@@ -22,72 +22,47 @@ public:
     RandomListNode *copyRandomList(RandomListNode *head){
 		RandomListNode *p = head;
 		RandomListNode *q, *r;
-		int offset;
-		int i;
+		RandomListNode *off[2048];
+		int offset[2048];
+		int i = 0, j = 0, k = 0;
 
 		if(p == NULL){
 			return NULL;
 		}
 		
 		RandomListNode *nhead = new RandomListNode(p->label);
-		offset = offsetToHead(head, p);
+		offset[i++] = offsetToHead(head, p);
 		
+		q = nhead;
 		while(p->next != NULL){
+			RandomListNode *add = new RandomListNode(p->next->label);
+			q->next = add;
+			q = q->next;
 			p = p->next;
-			nhead = addNodeToRandomList(nhead, p->label);
-			//offset[i++] = offsetToHead(head, p);
+			offset[i++] = offsetToHead(head, p);
 		}
+cout << i << endl;
 
 		p = nhead;
-		q = head;
-		offset = offsetToHead(head, q);
-
-		if(offset == -1){
-			r = NULL;
-		}
-		else{
-			r = nhead;
-			for(i = 0; i < offset; i++){
-				r = r->next;
-			}
-		}
-
-		p->random = r;
-
-		while(p->next != NULL){
+		k = 0;
+		while(p != NULL){
+			off[k++] = p;
 			p = p->next;
-			q = q->next;
-			offset = offsetToHead(head, q);
-
-			if(offset == -1){
-				r = NULL;
-			}
-			else{
-				r = nhead;
-				for(i = 0; i < offset; i++){
-					r = r->next;
-				}
-			}
-
-			p->random = r;
 		}
 
-/*
 		p = nhead;
 		for(j = 0; j < i; j++){
+cout << offset[j] << endl;
 			if(offset[j] == -1){
 				q = NULL;
 			}
 			else{
-				q = nhead;
-				for(k = 0; k < offset[j]; k++){
-					q = q->next;
-				}
+				q = off[offset[j]];
 			}
 			p->random = q;
 			p = p->next;
 		}
-*/
+
 		return nhead;
 	}
 
@@ -106,31 +81,19 @@ public:
 
 		return i;
 	}
-
-
-	RandomListNode *addNodeToRandomList(RandomListNode *r, int label){
-		RandomListNode *p, *q;
-		RandomListNode *add = new RandomListNode(label);
-
-		q = r;
-		p = getEndOfRandomList(q);
-		p->next = add;
-
-		return r;
-	}
-
-	RandomListNode *getEndOfRandomList(RandomListNode *r){
-		RandomListNode *p = r;
-
-		while(p->next != NULL){
-			p = p->next;
-		}
-
-		return p;
-	}
 };
 
 int main()
 {
+	Solution S;
+	RandomListNode *r = new RandomListNode(1);
+	RandomListNode *p;
+
+	p = S.copyRandomList(r);
+
+	while(p != NULL){
+		cout << p->label << '\t';
+		p = p->next;
+	}
 	return 0;
 }
