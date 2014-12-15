@@ -18,7 +18,7 @@ ListNode *getEndOfList(ListNode *l);
 
 void printList(ListNode *l);
 
-int len(ListNode *l);
+int lenOfList(ListNode *l);
 
 
 ListNode *addNodeToList(ListNode *l, int val)
